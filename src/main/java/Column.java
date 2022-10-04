@@ -52,4 +52,10 @@ public class Column {
     public void setMaxInvl(double patient) {
         this.maxInvl = maxInvl;
     }
+
+    @Override
+    public String toString() {
+        return  " " + columnName;
+    }
+
 }

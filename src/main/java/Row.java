@@ -1,4 +1,6 @@
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class Row {
     private Object[] values;
@@ -7,8 +9,7 @@ public class Row {
     public Row() {
     }
 
-    public Row(Table table, Object[] values){
-        this.table = table;
+    public Row(Object[] values){
         this.values = values;
     }
 
@@ -28,16 +29,14 @@ public class Row {
         this.table = table;
     }
 
-    public Object GetValue(String columnName)
+    public Integer getValue(String columnName)
     {
-        Table table = new Table();
         Column column  = table.GetColumn(columnName);
         int index = table.getColumns().indexOf(column);
-        return values[index];
+        return (Integer)values[index];
     }
 
-    public void SetValue(String columnName, Object value) throws Exception {
-        Table table = new Table();
+    public void setValue(String columnName, Object value) throws Exception {
         Column column = table.GetColumn(columnName);
         int index = table.getColumns().indexOf(column);
         DataType dataType = column.getDataType();
@@ -63,6 +62,12 @@ public class Row {
             default:
                 throw new Exception("Wrong type");
         }
-
+    }
+    @Override
+    public String toString() {
+        return  values[0] + "     " + values[1] + "       " + values[2] + "      " + NumberFormat.getCurrencyInstance(new Locale("en", "US"))
+                .format(values[3]);
+//        return "  " + values[1] + "       " + NumberFormat.getCurrencyInstance(new Locale("en", "US"))
+//                .format(values[2]);
     }
 }
