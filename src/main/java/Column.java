@@ -14,9 +14,8 @@ public class Column {
         this.dataType = dataType;
     }
 
-    public Column(String columnName, DataType dataType, double minInvl, double maxInvl) {
+    public Column(String columnName, double minInvl, double maxInvl) {
         this.columnName = columnName;
-        this.dataType = dataType;
         this.minInvl = minInvl;
         this.maxInvl = maxInvl;
     }
@@ -37,21 +36,21 @@ public class Column {
         this.dataType = dataType;
     }
 
-    public double getMinInvl() {
-        return this.minInvl;
-    }
-
-    public void setMinInvl(double minInvl) {
-        this.minInvl = minInvl;
-    }
-
-    public double getMaxInvl() {
-        return this.maxInvl;
-    }
-
-    public void setMaxInvl(double patient) {
-        this.maxInvl = maxInvl;
-    }
+//    public double getMinInvl() {
+//        return this.minInvl;
+//    }
+//
+//    public void setMinInvl(double minInvl) {
+//        this.minInvl = minInvl;
+//    }
+//
+//    public double getMaxInvl() {
+//        return this.maxInvl;
+//    }
+//
+//    public void setMaxInvl(double patient) {
+//        this.maxInvl = maxInvl;
+//    }
 
     @Override
     public String toString() {

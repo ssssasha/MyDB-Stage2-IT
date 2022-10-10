@@ -1,6 +1,7 @@
 import java.io.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,12 +32,12 @@ public class Database {
         this.tables = tables;
     }
 
-    public static Database CrateDatabase(String name){
+    public static Database crateDatabase(String name){
         Database newDatabase = new Database(name);
         return  newDatabase;
     }
 
-    public static void OpenDatabase(String path) throws IOException, ClassNotFoundException {
+    public static void openDatabase(String path) throws IOException, ClassNotFoundException {
         FileInputStream fi = new FileInputStream(path);
         ObjectInputStream oi = new ObjectInputStream(fi);
 
@@ -55,7 +56,7 @@ public class Database {
 
         try {
             // Write objects to file
-            o.writeObject(dBtoSave.toString());
+            o.writeObject(dBtoSave);
             System.out.println("Done");
             o.close();
             f.close();
@@ -88,16 +89,23 @@ public class Database {
         tables.remove(table);
     }
 
-    public void FindTableDifference(Table table1, Table table2){
-        List<Integer> idList1 = table1.getRows().stream().map(r -> r.getValue("Id")).collect(Collectors.toList());
-        List<Integer> idList2 = table2.getRows().stream().map(r -> r.getValue("Table1Id")).collect(Collectors.toList());
-        System.out.println(idList1);
-        System.out.println(idList2);
-        List<Integer> differences = idList1.stream()
-                .filter(element -> !idList2.contains(element))
+    public List<Row> FindTableDifference(Table table1, Table table2) throws Exception {
+        List<String> colNameList1 = table1.getColumns().stream().map(r -> r.getColumnName()).collect(Collectors.toList());
+        List<String> colNameList2 = table2.getColumns().stream().map(r -> r.getColumnName()).collect(Collectors.toList());
+        List<DataType> colTypeList1 = table1.getColumns().stream().map(r -> r.getDataType()).collect(Collectors.toList());
+        List<DataType> colTypeList2 = table2.getColumns().stream().map(r -> r.getDataType()).collect(Collectors.toList());
+        List<Row> differences;
+        if(colNameList1.equals(colNameList2) && colTypeList1.equals(colTypeList2)){
+            List<Row> rowList1 = table1.getRows().stream().collect(Collectors.toList());
+            List<Row> rowList2 = table2.getRows().stream().collect(Collectors.toList());
+            differences = rowList1.stream()
+                .filter(element -> !rowList2.contains(element))
                 .collect(Collectors.toList());
-        System.out.println(differences);
-        table1.printResultTable(table1, differences);
+        }
+        else{
+             throw new Exception("Unable to perform the operation. Table columns are not the same");
+        }
+        return differences;
     }
 
     public String toString() {
