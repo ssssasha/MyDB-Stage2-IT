@@ -60,22 +60,26 @@ public class Row {
         return values[index];
     }
 
-    public void setValue(String columnName, Object value) throws Exception {
+    public void setValue(String columnName, String value) throws Exception {
         Column column = table.GetColumn(columnName);
         int index = table.getColumns().indexOf(column);
         DataType dataType = column.getDataType();
         switch (dataType) {
             case INTEGER:
-                values[index] =  (Integer) value;
+                //values[index] =  (Integer) value;
+                values[index] =  Integer.parseInt(value);
                 break;
             case REAL:
-                values[index] = (double) value;
+                //values[index] = (double) value;
+                values[index] = Double.parseDouble(value);
                 break;
             case STRING:
-                values[index] = (String) value;
+                //values[index] = (String) value;
+                values[index] = value;
                 break;
             case CHAR:
-                values[index] = (char) value;
+                //values[index] = (char) value;
+                values[index] =  value.charAt(0);
                 break;
 //            case $INVL:
 //                values[index] = (double) value;
